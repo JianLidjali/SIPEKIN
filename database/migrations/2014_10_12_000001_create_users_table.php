@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->uuid('employee_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('uuid')->on('employees')->onDelete('set null');
         });
     }
 

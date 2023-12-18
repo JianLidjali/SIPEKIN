@@ -10,7 +10,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route('auth.login') }}" class="needs-validation" novalidate="">
+        <form method="POST" action="{{ route('auth.login') }}" class="needs-validation">
             @csrf
             <div class="form-group">
                 <label for="username">Username</label>
@@ -27,6 +27,11 @@
             <div class="form-group">
                 <div class="d-block">
                     <label for="password" class="control-label">Password</label>
+                    <div class="float-right">
+                        <a href="{{ route('password.request') }}" class="text-small">
+                            Forgot Password?
+                        </a>
+                    </div>
                 </div>
                 <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
                 @error('password')
@@ -36,6 +41,7 @@
                     please fill in your password
                 </div>
             </div>
+
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">

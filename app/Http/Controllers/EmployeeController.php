@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EmployeeExport;
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -18,29 +22,51 @@ class EmployeeController extends Controller
     {
         return view('pages.employee.create');
     }
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'staffIdentityCardNo' => 'required',
-            'department' => 'required',
-            'position' => 'required',
-            'dateJoined' => 'required',
-            'dateInThePresentPosition' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
         try {
-
-            $employee = new Employee($request->all());
-            dd('Data created successfully');
+            $employee = Employee::create($request->all());
+            User::create([
+                'username' => $employee->name,
+                'role' => 'Karyawan',
+                'email' => $request->input('email'),
+                'email_verified_at' => now(),
+                'password' => bcrypt('password'),
+                'employee_id' => $employee->uuid,
+            ]);
             return redirect()->route('employee.index')->with('success', 'Data created successfully');
         } catch (\Throwable $th) {
-            return dd($th->getMessage());
-            return redirect()->back()->with(['error', $th->getMessage()]);
+            return redirect()->back()->withErrors(['error' => $th->getMessage()]);
         }
+    }
+    public function edit(Employee $employee)
+    {
+
+        return view('pages.employee.edit', compact('employee'));
+    }
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    {
+        try {
+            $employee->name = $request->name;
+            $employee->staffIdentityCardNo = $request->staffIdentityCardNo;
+            $employee->department = $request->department;
+            $employee->position = $request->position;
+            $employee->dateJoined = $request->dateJoined;
+            $employee->dateInThePresentPosition = $request->dateInThePresentPosition;
+            $employee->update();
+            return redirect()->route('employee.index')->with('success', 'Data updated successfully');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['error' => $th->getMessage()]);
+        }
+    }
+    public function destroy(Employee $employee)
+    {
+        $employee->delete();
+        return redirect()->route('employee.index')->with('success', 'Data deleted successfully');
+    }
+    public function export()
+    { 
+        $employee = Employee::orderBy('department')->get();
+        return Excel::download(new EmployeeExport($employee), 'Daftar Karyawan.xlsx');
     }
 }

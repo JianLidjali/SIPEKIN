@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
@@ -18,12 +20,13 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => (string) Uuid::uuid4(),
             'name' => $this->faker->name,
             'staffIdentityCardNo' => $this->faker->unique()->ean8,
             'department' => $this->faker->randomElement(['Front Office', 'Housekeeping', 'Engineering', 'Accounting', 'Sales', 'FBS', 'FBP', 'HC & Security']),
             'position' => $this->faker->word,
-            'dateJoined' => $this->faker->date,
-            'dateInThePresentPosition' => $this->faker->date,
+            'dateJoined' => $this->faker->dateTimeBetween('-2 years', 'now'),
+            'dateInThePresentPosition' => $this->faker->dateTimeBetween('-2 years', 'now'),
         ];
     }
 }

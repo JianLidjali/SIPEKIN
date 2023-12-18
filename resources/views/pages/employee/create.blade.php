@@ -9,6 +9,25 @@
         <div class="section-header">
             <h1>Employees</h1>
         </div>
+        @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible show fade">
+            <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+                {{ session('success') }}
+            </div>
+        </div>
+        @elseif (session()->has('error'))
+        <div class="alert alert-danger alert-dismissible show fade">
+            <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+                {{ session('error') }}
+            </div>
+        </div>
+        @endif
     </section>
     <section class="row">
         <div class="col-12">
@@ -24,7 +43,21 @@
                                     class="mb-md-0 w-100 mb-2 text-start">Nama</label></div>
                             <div class="col-12 col-md-9">
                                 <input type="text" class="form-control @error('nama') border-danger @enderror" id="name"
-                                    name="name" value="{{ old('name') }}">
+                                    name="name" value="{{ old('name') }}" required>
+                                @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-3"><label for="email"
+                                    class="mb-md-0 w-100 mb-2 text-start">Email</label></div>
+                            <div class="col-12 col-md-9">
+                                <input type="email" class="form-control @error('email') border-danger @enderror"
+                                    id="email" name="email" value="{{ old('email') }}" required>
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -32,9 +65,12 @@
                                     class="mb-md-0 w-100 mb-2 text-start">Staff Identity Card No</label></div>
                             <div class="col-12 col-md-9">
                                 <input type="text"
-                                    class="form-control @error('staffIdetntityCardNo') border-danger @enderror"
-                                    id="staffIdetntityCardNo" name="staffIdetntityCardNo"
-                                    value="{{ old('staffIdetntityCardNo') }}">
+                                    class="form-control @error('staffIdentityCardNo') border-danger @enderror"
+                                    id="staffIdentityCardNo" name="staffIdentityCardNo"
+                                    value="{{ old('staffIdentityCardNo') }}" required>
+                                @error('staffIdentityCardNo')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -64,7 +100,10 @@
                                     class="mb-md-0 w-100 mb-2 text-start">Posisi</label></div>
                             <div class="col-12 col-md-9">
                                 <input type="text" class="form-control @error('position') border-danger @enderror"
-                                    id="position" name="position" value="{{ old('position') }}">
+                                    id="position" name="position" value="{{ old('position') }}" required>
+                                @error('position')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -72,7 +111,10 @@
                                     class="mb-md-0 w-100 mb-2 text-start">Date Joined</label></div>
                             <div class="col-12 col-md-9">
                                 <input type="date" class="form-control @error('dateJoined') border-danger @enderror"
-                                    id="dateJoined" name="dateJoined" value="{{ old('dateJoined') }}">
+                                    id="dateJoined" name="dateJoined" value="{{ old('dateJoined') }}" required>
+                                @error('dateJoined')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -82,7 +124,10 @@
                                 <input type="date"
                                     class="form-control @error('dateInThePresentPosition') border-danger @enderror"
                                     id="dateInThePresentPosition" name="dateInThePresentPosition"
-                                    value="{{ old('dateInThePresentPosition') }}">
+                                    value="{{ old('dateInThePresentPosition') }}" required>
+                                @error('dateInThePresentPosition')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="d-flex">
