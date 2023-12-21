@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\user;
+use App\Models\Employee;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\user;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class userController extends Controller
 {
@@ -32,7 +34,15 @@ class userController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = user::create($request->all());
+        $employee = Employee::create($request->only('name', 'staffIdentityCardNo', 'department', 'position', 'dateJoined', 'dateInThePresentPosition'));
+        User::create([
+            'username' => $request->input('username'),
+            'role' => $request->input('role'),
+            'email' => $request->input('email'),
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'employee_id' => $employee->uuid,
+        ]);
         return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan.');
     }
 
@@ -104,6 +114,9 @@ class userController extends Controller
     public function destroy(user $user)
     {
         $user->delete();
+        if ($user->employee) {
+            $user->employee->delete();
+        }
         return redirect()->route('user.index')->with('success', 'Data user berhasil dihapus.');
     }
 }

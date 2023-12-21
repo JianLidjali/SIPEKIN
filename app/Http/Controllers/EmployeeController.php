@@ -61,11 +61,14 @@ class EmployeeController extends Controller
     }
     public function destroy(Employee $employee)
     {
-        $employee->delete();
+
+        if ($employee->user) {
+            $employee->user->delete();
+        }
         return redirect()->route('employee.index')->with('success', 'Data deleted successfully');
     }
     public function export()
-    { 
+    {
         $employee = Employee::orderBy('department')->get();
         return Excel::download(new EmployeeExport($employee), 'Daftar Karyawan.xlsx');
     }

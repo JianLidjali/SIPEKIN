@@ -79,12 +79,5 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('gm123'),
         ]);
-        User::create([
-            'username' => 'user',
-            'role' => 'Karyawan',
-            'email' => 'user2@localhost',
-            'email_verified_at' => now(),
-            'password' => bcrypt('12345678'),
-        ]);
     }
 }
