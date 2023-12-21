@@ -4,6 +4,17 @@
 @section('main')
 
 <x-main.alert />
+@if (session()->has('status'))
+<div class="alert alert-info alert-dismissible show fade">
+    <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+        {{ session('status') }}
+    </div>
+</div>
+
+@endif
 <div class="card card-primary">
     <div class="card-header " style="text-align: center">
         <h4>Login</h4>

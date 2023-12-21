@@ -7,6 +7,34 @@
     <div class="card-header">
         <h4>Forgot Password</h4>
     </div>
+    @if (session()->has('success'))
+    <div class="alert alert-success alert-dismissible show fade">
+        <div class="alert-body">
+            <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+            {{ session('success') }}
+        </div>
+    </div>
+    @elseif (session()->has('error'))
+    <div class="alert alert-danger alert-dismissible show fade">
+        <div class="alert-body">
+            <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+            {{ session('error') }}
+        </div>
+    </div>
+    @elseif (session()->has('status'))
+    <div class="alert alert-info alert-dismissible show fade">
+        <div class="alert-body">
+            <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+            {{ session('status') }}
+        </div>
+    </div>
+    @endif
     <div class="card-body">
         <form method="POST" action="{{ route('password.email') }}">
             @csrf

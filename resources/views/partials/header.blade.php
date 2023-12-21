@@ -18,11 +18,7 @@
             <div class="dropdown-menu dropdown-menu-right">
                 <a href="{{ route('profile.edit') }}" class="dropdown-item has-icon"><i class="fas fa-user"></i>
                     Profile</a>
-                <form action="{{ route('logout') }}" method="get">
-                    @csrf
-                    <button type="submit" class="dropdown-item has-icon text-danger"><i class="fas fa-sign-out-alt"></i>
-                        Logout</button>
-                </form>
+                <a href="{{ route('logout') }}" class="dropdown-item has-icon"><i class="fas fa-sign-out-alt"></i>Logout</a>
             </div>
         </li>
     </ul>

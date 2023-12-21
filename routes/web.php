@@ -17,6 +17,7 @@ use App\Http\Controllers\HasilPenilaianController;
 use App\Http\Controllers\PerformanceAppraisalController;
 use App\Http\Controllers\ProfileController;
 use App\Models\PerformanceAppraisal;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,14 +48,17 @@ Route::post('/forgot-password', function (Request $request) {
     $status = Password::sendResetLink(
         $request->only('email')
     );
-
-    return $status === Password::RESET_LINK_SENT
-        ? back()->with(['status' => __($status)])
-        : back()->withErrors(['email' => __($status)]);
+    if ($status === Password::RESET_LINK_SENT) {
+        Log::info('Password reset link sent to: ' . $request->email);
+        return redirect()->back()->with(['success', 'Password reset link sent to: ' . $request->email]);
+    } else {
+        Log::error('Password reset link not sent. Error: ' . $status);
+        return back()->withErrors(['email' => __($status)]);
+    }
 })->middleware('guest')->name('password.email');
 
 Route::get('/reset-password/{token}', function (string $token) {
-    return view('auth.reset-password', ['token' => $token]);
+    return view('pages.auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
 
 
@@ -78,9 +82,13 @@ Route::post('/reset-password', function (Request $request) {
         }
     );
 
-    return $status === Password::PASSWORD_RESET
-        ? redirect()->route('login')->with('status', __($status))
-        : back()->withErrors(['email' => [__($status)]]);
+    if ($status === Password::PASSWORD_RESET) {
+        Log::info('Password reset successful for email: ' . $request->email);
+        return redirect()->route('login')->with('status', 'Your password has been reset.');
+    } else {
+        Log::error('Password reset failed. Error: ' . $status);
+        return back()->withErrors(['email' => [__($status)]]);
+    }
 })->middleware('guest')->name('password.update');
 
 
