@@ -29,7 +29,9 @@ class PerformanceAppraisalController extends Controller
         if (Auth::user()->role == 'Karyawan') {
             $data = Employee::where('uuid', Auth::user()->employee_id)->get();
         } else {
-            $data = Employee::all();
+            $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+                ->where('users.role', '=', 'Karyawan')
+                ->get(['employees.*']);;
         }
         return view('pages.Performance Appraisal.annual.index', compact('data'));
     }
@@ -44,7 +46,7 @@ class PerformanceAppraisalController extends Controller
         $certification = Certification::where('performance_appraisal_id', $data->id)->latest()->first();
         $probation = Probation::where('performance_appraisal_id', $data->id)->latest()->first();
         $promotion = Promotion::where('performance_appraisal_id', $data->id)->latest()->first();
-        
+
 
 
         return view('pages.Performance Appraisal.show', compact('employee', 'data', 'performance', 'attitudeTowardsWork', 'overallRating', 'generalRating', 'certification', 'probation', 'promotion'));
@@ -174,7 +176,9 @@ class PerformanceAppraisalController extends Controller
         if (Auth::user()->role == 'Karyawan') {
             $data = Employee::where('uuid', Auth::user()->employee_id)->get();
         } else {
-            $data = Employee::all();
+            $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+                ->where('users.role', '=', 'Karyawan')
+                ->get(['employees.*']);;
         }
 
         return view('pages.performance appraisal.probation.index', compact('data'));
@@ -312,7 +316,9 @@ class PerformanceAppraisalController extends Controller
         if (Auth::user()->role == 'Karyawan') {
             $data = Employee::where('uuid', Auth::user()->employee_id)->get();
         } else {
-            $data = Employee::all();
+            $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+                ->where('users.role', '=', 'Karyawan')
+                ->get(['employees.*']);;
         }
         return view('pages.performance appraisal.recomendation.index', compact('data'));
     }

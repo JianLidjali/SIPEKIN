@@ -15,7 +15,10 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Employee::all();
+        $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+            ->where('users.role', '=', 'Karyawan')
+            ->get(['employees.*']);
+        
         return view('pages.employee.index', compact('data'));
     }
     public function create()

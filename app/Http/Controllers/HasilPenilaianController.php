@@ -216,7 +216,6 @@ class HasilPenilaianController extends Controller
 
             return response()->download($newFilePath);
         } catch (\Exception $e) {
-            return dd($e);
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

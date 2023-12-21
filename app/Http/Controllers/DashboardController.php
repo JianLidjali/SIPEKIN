@@ -20,7 +20,9 @@ class DashboardController extends Controller
             $appraisal = PerformanceAppraisal::whereIn('status', ['pending', 'Diisi oleh Karyawan', 'Diapprove oleh HOD', 'Diapprove oleh HRD', 'Diapprove oleh GM'])->get();
         }
         $status = PerformanceAppraisal::where('status', 'pending')->get();
-        $employee = Employee::all();
+        $employee = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+            ->where('users.role', '=', 'Karyawan')
+            ->get(['employees.*']);;
 
         $data2 = PerformanceAppraisal::where('type', 'For Annual')->count();
         $data3 = PerformanceAppraisal::where('type', 'For Probation')->count();
