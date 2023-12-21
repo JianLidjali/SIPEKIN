@@ -33,7 +33,7 @@ class StoreUserRequest extends FormRequest
             'department' => 'required',
             'position' => 'required',
             'dateJoined' => 'required|date|',
-            'dateInThePresentPosition' => 'required|date|',
+            'dateInThePresentPosition' => 'required|date|after_or_equal:dateJoined',
 
 
         ];
@@ -44,6 +44,7 @@ class StoreUserRequest extends FormRequest
             'staffIdentityCardNo.unique' => 'Staff Identity Card No sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
             'password_confirmation.same' => 'Konfirmasi password tidak sama.',
+            'dateInThePresentPosition.after_or_equal' => 'Tanggal pada kolom "Date In The Present Position" harus setelah tanggal pada kolom "Date Joined".',
         ];
     }
 }

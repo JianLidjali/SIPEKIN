@@ -27,8 +27,8 @@ class StoreEmployeeRequest extends FormRequest
             'staffIdentityCardNo' => 'required|unique:employees,staffIdentityCardNo',
             'department' => 'required',
             'position' => 'required',
-            'dateJoined' => 'required|date|before_or_equal:today',
-            'dateInThePresentPosition' => 'required|date|before_or_equal:today',
+            'dateJoined' => 'required|date',
+            'dateInThePresentPosition' => 'required|date|after_or_equal:dateJoined',
         ];
     }
     public function messages()
@@ -36,6 +36,7 @@ class StoreEmployeeRequest extends FormRequest
         return [
             'staffIdentityCardNo.unique' => 'Staff Identity Card No sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
+            'dateInThePresentPosition.after_or_equal' => 'Tanggal pada kolom "Date In The Present Position" harus setelah tanggal pada kolom "Date Joined".',
         ];
     }
 }

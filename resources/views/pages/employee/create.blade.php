@@ -124,9 +124,9 @@
                                 <input type="date"
                                     class="form-control @error('dateInThePresentPosition') border-danger @enderror"
                                     id="dateInThePresentPosition" name="dateInThePresentPosition"
-                                    value="{{ old('dateInThePresentPosition') }}" required>
+                                    value="{{ old('dateInThePresentPosition') }}" required min="{{ old('dateJoined') }}>
                                 @error('dateInThePresentPosition')
-                                <span class="text-danger">{{ $message }}</span>
+                                <span class=" text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
