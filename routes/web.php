@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\ApprovalController;
@@ -12,7 +15,8 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HasilPenilaianController;
 use App\Http\Controllers\PerformanceAppraisalController;
-use App\Models\User;
+use App\Http\Controllers\ProfileController;
+use App\Models\PerformanceAppraisal;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +89,8 @@ Route::middleware('web', 'auth')->group(function () {
     Route::resource('/employee', EmployeeController::class)->names('employee')->except(['show']);
     Route::get('/employee/export', [EmployeeController::class, 'export'])->name('employee.export');
 
+    Route::get('/appraisal/{id}', [PerformanceAppraisalController::class, 'show'])->name('appraisal.show');
+
     Route::get('/performance-appraisal/annual', [PerformanceAppraisalController::class, 'index'])->name('performance-appraisal.index');
     Route::get('/performance-appraisal/form/{employee}', [PerformanceAppraisalController::class, 'form'])->name('annual.form');
     Route::post('/performance-appraisal/store/{employee}', [PerformanceAppraisalController::class, 'store'])->name('performance-appraisal.store');
@@ -100,6 +106,10 @@ Route::middleware('web', 'auth')->group(function () {
     Route::post('/performance-appraisal/storeRecommendation/{employee}', [PerformanceAppraisalController::class, 'storeRecommendation'])->name('recommendation.store');
     Route::post('/performance-appraisal/storeEmployeeRecommendation/{employee}', [PerformanceAppraisalController::class, 'updateRecommendation'])->name('recommendation.update');
 
+    route::resource('/user', userController::class)->names('user');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.edit');
+    Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 
     // routes/web.php
     Route::post('/dashboard/{id}/hod', [DashboardController::class, 'approveHod'])->name('hod.approve');

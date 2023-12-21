@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Employee;
+use App\Models\User;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEmployeeRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,14 +24,27 @@ class StoreEmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('user');
+        $employeeId = $userId->employee;
+
         return [
+            'username' => 'required',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($userId),
+            ],
+            'role' => 'required',
+
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'staffIdentityCardNo' => 'required|unique:employees,staffIdentityCardNo',
+            'staffIdentityCardNo' => [
+                'required',
+                Rule::unique('employees', 'staffIdentityCardNo')->ignore($employeeId),
+            ],
             'department' => 'required',
             'position' => 'required',
-            'dateJoined' => 'required|date|before_or_equal:today',
-            'dateInThePresentPosition' => 'required|date|before_or_equal:today',
+            'dateJoined' => 'required|date',
+            'dateInThePresentPosition' => 'required|date',
         ];
     }
     public function messages()
@@ -36,6 +52,7 @@ class StoreEmployeeRequest extends FormRequest
         return [
             'staffIdentityCardNo.unique' => 'Staff Identity Card No sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
+            'password_confirmation.same' => 'Konfirmasi password tidak sama.',
         ];
     }
 }

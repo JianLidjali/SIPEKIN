@@ -38,6 +38,14 @@
                     <i class="fas fa-clipboard"></i><span>Hasil Penilaian</span>
                 </a>
             </li>
+            @if (Auth::user()->role == 'Admin')
+            <li class="nav">
+                <a href="{{ url('/user') }}" class="nav-link" style="line-height: 1;">
+                    <i class="fas fa-user"></i><span>User</span>
+                </a>
+            </li>
+
+            @endif
         </ul>
     </aside>
 </div>

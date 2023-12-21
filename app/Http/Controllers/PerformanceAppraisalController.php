@@ -33,6 +33,22 @@ class PerformanceAppraisalController extends Controller
         }
         return view('pages.Performance Appraisal.annual.index', compact('data'));
     }
+    public function show($id)
+    {
+        $data = PerformanceAppraisal::where('id', $id)->first();
+        $employee = Employee::where('uuid', $data->employee_uuid)->first();
+        $performance = Performance::where('performance_appraisal_id', $data->id)->latest()->first();
+        $attitudeTowardsWork = AttitudeTowardsWork::where('performance_appraisal_id', $data->id)->latest()->first();
+        $overallRating = OverallRating::where('performance_appraisal_id', $data->id)->latest()->first();
+        $generalRating = GeneralRating::where('performance_appraisal_id', $data->id)->latest()->first();
+        $certification = Certification::where('performance_appraisal_id', $data->id)->latest()->first();
+        $probation = Probation::where('performance_appraisal_id', $data->id)->latest()->first();
+        $promotion = Promotion::where('performance_appraisal_id', $data->id)->latest()->first();
+        
+
+
+        return view('pages.Performance Appraisal.show', compact('employee', 'data', 'performance', 'attitudeTowardsWork', 'overallRating', 'generalRating', 'certification', 'probation', 'promotion'));
+    }
     public function form(Employee $employee)
     {
         if (Auth::user()->role == 'Karyawan') {
