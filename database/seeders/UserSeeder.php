@@ -16,22 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        Employee::factory(20)
-            ->create()
-            ->each(function ($employee) {
-                // Membuat username yang unik dari name
-                $username = $employee->name;
-
-                // Membuat user dengan username sesuai dengan name
-                $user = User::factory()->create([
-                    'username' => $username,
-                    'employee_id' => $employee->uuid
-                ]);
-
-                // Mengupdate name di tabel employees sesuai username
-                $employee->update(['name' => $user->username]);
-            });
-
+        
         User::create([
             'username' => 'admin',
             'role' => 'Admin',

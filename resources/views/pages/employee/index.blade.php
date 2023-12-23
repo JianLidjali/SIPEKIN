@@ -101,7 +101,7 @@
                     </tbody>
                     <tfoot>
                         <div class="flex mb-3">
-                            @if (Auth::user()->role != 'Karyawan')
+                            @if (Auth::user()->role != 'Karyawan' && Auth::user()->role != 'HOD')
                             <a href="{{ route('employee.create') }}" class="btn btn-primary"><i
                                     class="fa-solid fa-plus-circle"></i> Tambah</a>
                             @endif

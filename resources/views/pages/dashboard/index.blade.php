@@ -68,7 +68,7 @@
                         <h4>Total Karyawan</h4>
                     </div>
                     <div class="card-body">
-                        {{ $data }}
+                        {{ $employee }}
                     </div>
                 </div>
             </div>
