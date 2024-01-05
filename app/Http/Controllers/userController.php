@@ -69,7 +69,7 @@ class userController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $request->validate([
             'username' => 'required',
@@ -77,14 +77,8 @@ class userController extends Controller
             'role' => 'required',
             'password' => 'nullable|min:8',
             'password_confirmation' => 'nullable|same:password',
-
-            'name' => 'required',
-            'staffIdentityCardNo' => 'required|unique:employees,staffIdentityCardNo,' . $user->employee->id . ',id',
-
             'department' => 'required',
-            'position' => 'required',
-            'dateJoined' => 'required|date',
-            'dateInThePresentPosition' => 'required|date',
+            
         ]);
 
         $data = [
@@ -99,15 +93,7 @@ class userController extends Controller
 
         $user->update($data);
 
-        // Perbarui data karyawan jika diperlukan
-        $user->employee->update([
-            'name' => $request->input('name'),
-            'staffIdentityCardNo' => $request->input('staffIdentityCardNo'),
-            'department' => $request->input('department'),
-            'position' => $request->input('position'),
-            'dateJoined' => $request->input('dateJoined'),
-            'dateInThePresentPosition' => $request->input('dateInThePresentPosition'),
-        ]);
+       
 
         return redirect()->route('user.index')->with('success', 'Data user berhasil diperbarui.');
     }
@@ -118,9 +104,7 @@ class userController extends Controller
     public function destroy(user $user)
     {
         $user->delete();
-        if ($user->employee) {
-            $user->employee->delete();
-        }
+        
         return redirect()->route('user.index')->with('success', 'Data user berhasil dihapus.');
     }
 }

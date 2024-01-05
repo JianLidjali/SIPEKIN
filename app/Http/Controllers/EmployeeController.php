@@ -56,9 +56,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
 
-        if ($employee->user) {
-            $employee->user->delete();
-        }
+        $employee->delete();
         return redirect()->route('employee.index')->with('success', 'Data deleted successfully');
     }
     public function export()
