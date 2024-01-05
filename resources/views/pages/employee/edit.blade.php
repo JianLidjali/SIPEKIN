@@ -51,7 +51,7 @@
                                     <option value="Housekeeping" {{ $employee->department == 'Housekeeping' ? 'selected'
                                         : ''
                                         }}>Housekeeping</option>
-                                    <option value="Engineering" {{ $employee->department == 'Enginering' ? 'selected' :
+                                    <option value="Engineering" {{ $employee->department == 'Engineering' ? 'selected' :
                                         '' }}>Engineering</option>
                                     <option value="Accounting" {{ $employee->department == 'Accounting' ? 'selected' :
                                         ''}}>

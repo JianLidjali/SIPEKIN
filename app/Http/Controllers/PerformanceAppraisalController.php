@@ -26,13 +26,7 @@ class PerformanceAppraisalController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role == 'Karyawan') {
-            $data = Employee::where('uuid', Auth::user()->employee_id)->get();
-        } else {
-            $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
-                ->where('users.role', '=', 'Karyawan')
-                ->get(['employees.*']);;
-        }
+        $data = employee::orderBy('department')->get();
         return view('pages.Performance Appraisal.annual.index', compact('data'));
     }
     public function show($id)
@@ -47,34 +41,10 @@ class PerformanceAppraisalController extends Controller
         $probation = Probation::where('performance_appraisal_id', $data->id)->latest()->first();
         $promotion = Promotion::where('performance_appraisal_id', $data->id)->latest()->first();
 
-
-
         return view('pages.Performance Appraisal.show', compact('employee', 'data', 'performance', 'attitudeTowardsWork', 'overallRating', 'generalRating', 'certification', 'probation', 'promotion'));
     }
     public function form(Employee $employee)
     {
-        if (Auth::user()->role == 'Karyawan') {
-            $appraisal = PerformanceAppraisal::where('employee_id', $employee->id)->where('type', 'For Annual')->latest()->first();
-            if (!$appraisal) {
-                return redirect()->back()->with('error', 'Penilaian Belum Dibuat');
-            }
-            $performance = Performance::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $attitudeTowardsWork = AttitudeTowardsWork::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $overallRating = OverallRating::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $generalRating = GeneralRating::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $certification = Certification::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $data = [
-                'employee' => $employee,
-                'appraisal' => $appraisal,
-                'performance' => $performance,
-                'attitudeTowardsWork' => $attitudeTowardsWork,
-                'overallRating' => $overallRating,
-                'generalRating' => $generalRating,
-                'certification' => $certification,
-            ];
-            // Menggunakan View::make dengan data untuk membuat view dan mereturnnya
-            return View::make('pages.Performance Appraisal.annual.employee.index', $data);
-        }
         return view('pages.Performance Appraisal.annual.hod.index', compact('employee'));
     }
 
@@ -148,6 +118,11 @@ class PerformanceAppraisalController extends Controller
                 'promotable_1_2_years_successor' => $request->promotable_1_2_years_successor,
             ]);
             $generalRating->save();
+            $certification = new Certification([
+                'performance_appraisal_id' => $performanceAppraisal->id,
+                'staff_suggestion' => $request->staff_suggestion,
+            ]);
+            $certification->save();
 
             return redirect()->route('performance-appraisal.index')->with('success', 'Data created successfully');
         } catch (\Exception $th) {
@@ -173,49 +148,20 @@ class PerformanceAppraisalController extends Controller
 
     public function masaPercobaan()
     {
-        if (Auth::user()->role == 'Karyawan') {
-            $data = Employee::where('uuid', Auth::user()->employee_id)->get();
-        } else {
-            $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
-                ->where('users.role', '=', 'Karyawan')
-                ->get(['employees.*']);;
-        }
+        $data = employee::orderBy('department')->get();
 
         return view('pages.performance appraisal.probation.index', compact('data'));
     }
     public function formProbation(Employee $employee)
     {
-        if (Auth::user()->role == 'Karyawan') {
-            $appraisal = PerformanceAppraisal::where('employee_id', $employee->id)->where('type', 'For Probation')->latest()->first();
-            if (!$appraisal) {
-                return redirect()->back()->with('error', 'Penilaian Belum Dibuat');
-            }
-            $performance = Performance::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $attitudeTowardsWork = AttitudeTowardsWork::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $overallRating = OverallRating::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $generalRating = GeneralRating::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $certification = Certification::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $probation = Probation::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $data = [
-                'employee' => $employee,
-                'appraisal' => $appraisal,
-                'performance' => $performance,
-                'attitudeTowardsWork' => $attitudeTowardsWork,
-                'overallRating' => $overallRating,
-                'generalRating' => $generalRating,
-                'certification' => $certification,
-                'probation' => $probation
-            ];
 
-            // Menggunakan View::make dengan data untuk membuat view dan mereturnnya
-            return View::make('pages.Performance Appraisal.probation.employee.index', $data);
-        }
         return view('pages.Performance Appraisal.probation.hod.index', compact('employee'));
     }
 
     public function storeProbation(StoreProbationAppraisal $request, Employee $employee)
     {
         try {
+            
             $performanceAppraisal = new PerformanceAppraisal();
             $performanceAppraisal->employee_id = $employee->id;
             $performanceAppraisal->employee_uuid = $request->employee_uuid;
@@ -282,6 +228,14 @@ class PerformanceAppraisalController extends Controller
                 'promotable_1_2_years_successor' => $request->promotable_1_2_years_successor,
             ]);
             $generalRating->save();
+
+            $certification = new Certification([
+                'performance_appraisal_id' => $performanceAppraisal->id,
+                'staff_suggestion' => $request->staff_suggestion,
+            ]);
+            $certification->save();
+
+
             $probation = new Probation([
                 'performance_appraisal_id' => $performanceAppraisal->id,
                 'confirmed_date' => $request->confirmed_date,
@@ -291,6 +245,7 @@ class PerformanceAppraisalController extends Controller
                 'termination_reason' => $request->termination_reason,
             ]);
             $probation->save();
+            
             return redirect()->route('performance-appraisal.masaPercobaan')->with('success', 'Data created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -313,47 +268,19 @@ class PerformanceAppraisalController extends Controller
     }
     public function rekomendasi()
     {
-        if (Auth::user()->role == 'Karyawan') {
-            $data = Employee::where('uuid', Auth::user()->employee_id)->get();
-        } else {
-            $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
-                ->where('users.role', '=', 'Karyawan')
-                ->get(['employees.*']);;
-        }
+        $data = Employee::orderBy('department')->get();
+        
         return view('pages.performance appraisal.recomendation.index', compact('data'));
     }
     public function formRecommendation(Employee $employee)
     {
-        if (Auth::user()->role == 'Karyawan') {
-            $appraisal = PerformanceAppraisal::where('employee_id', $employee->id)->where('type', 'For Promotion Recommendation')->latest()->first();
-            if (!$appraisal) {
-                return redirect()->back()->with('error', 'Penilaian Belum Dibuat');
-            }
-            $performance = Performance::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $attitudeTowardsWork = AttitudeTowardsWork::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $overallRating = OverallRating::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $generalRating = GeneralRating::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $certification = Certification::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $promotion = Promotion::where('performance_appraisal_id', $appraisal->id)->latest()->first();
-            $data = [
-                'employee' => $employee,
-                'appraisal' => $appraisal,
-                'performance' => $performance,
-                'attitudeTowardsWork' => $attitudeTowardsWork,
-                'overallRating' => $overallRating,
-                'generalRating' => $generalRating,
-                'certification' => $certification,
-                'promotion' => $promotion
-            ];
-
-            // Menggunakan View::make dengan data untuk membuat view dan mereturnnya
-            return View::make('pages.Performance Appraisal.recomendation.employee.index', $data);
-        }
+        
         return view('pages.Performance Appraisal.recomendation.hod.index', compact('employee'));
     }
-    public function storeRecommendation(StoreRecommendationApraisal $request, Employee $employee)
+    public function storeRecommendation(Request $request, Employee $employee)
     {
         try {
+            
             $performanceAppraisal = new PerformanceAppraisal();
             $performanceAppraisal->employee_id = $employee->id;
             $performanceAppraisal->employee_uuid = $request->employee_uuid;
@@ -420,6 +347,12 @@ class PerformanceAppraisalController extends Controller
                 'promotable_1_2_years_successor' => $request->promotable_1_2_years_successor,
             ]);
             $generalRating->save();
+            $certification = new Certification([
+                'performance_appraisal_id' => $performanceAppraisal->id,
+                'staff_suggestion' => $request->staff_suggestion,
+            ]);
+            $certification->save();
+
             $promotion = new Promotion([
                 'performance_appraisal_id' => $performanceAppraisal->id,
                 'new_position' => $request->new_position,
