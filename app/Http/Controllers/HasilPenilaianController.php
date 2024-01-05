@@ -18,7 +18,7 @@ class HasilPenilaianController extends Controller
 {
     public function index()
     {
-        $appraisals = PerformanceAppraisal::whereIn('status', ['pending', 'Diapprove oleh HRD', 'Diapprove oleh GM'])->get();
+        $appraisals = PerformanceAppraisal::whereIn('status', ['Diapprove oleh HRD', 'Diapprove oleh GM'])->orderByDesc('created_at')->get();
 
         return view('pages.hasil penilaian.index', compact('appraisals'));
     }

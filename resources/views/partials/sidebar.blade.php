@@ -13,11 +13,13 @@
                     <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </li>
-            <li class="nav">
+            @if (Auth::user()->role != 'HOD')
+                <li class="nav">
                 <a href="{{ url('/employee') }}" class="nav-link" style="line-height: 1;">
                     <i class="fas fa-users"></i><span>Karyawan</span>
                 </a>
             </li>
+            @endif
             <li class="nav">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-chart-bar"></i>

@@ -84,7 +84,7 @@
                                     <td>{{ $appraisal->type }}</td>
                                     <td>{{ date('d F Y', strtotime($appraisal->date)) }}</td>
                                     <td>
-                                        @if($appraisal->status == 'Diapprove oleh GM')
+                                        @if($appraisal->status == 'Diapprove oleh HRD' || $appraisal->status == 'Diapprove oleh GM')
                                         <form action="{{ route('appraisal.print', $appraisal->id) }}" method="post"
                                             style="display: inline-block;">
                                             @csrf

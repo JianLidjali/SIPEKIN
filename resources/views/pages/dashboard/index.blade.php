@@ -161,7 +161,6 @@
                         <table class="table">
                             <thead>
                                 <tr>
-
                                     <th>Nama Karyawan</th>
                                     <th>Status</th>
                                     <th>Type</th>
@@ -171,7 +170,7 @@
                             </thead>
                             <tbody>
                                 @foreach($appraisal as $index => $appraisal)
-                                @if($appraisal->status != 'Diapprove oleh HRD' && $appraisal->status != 'Diapprove oleh
+                                @if($appraisal->status == 'pending' && $appraisal->approval_status !== 'Diapprove oleh
                                 GM')
                                 <tr>
                                     <td>{{ $appraisal->employee->name }}</td>
@@ -195,7 +194,7 @@
                                         </form>
                                         @else
                                         <button class="btn">
-                                            <span class="badge badge-secondary">Belum diisi Karyawan</span>
+                                            <span class="badge badge-secondary"></span>
                                         </button>
                                         @endif
                                     </td>
@@ -209,6 +208,7 @@
             </div>
         </div>
     </div>
+
     @elseif (Auth::user()->role == 'GM' && $appraisal->where('status', 'Diapprove oleh HRD')->count() > 0)
     <div class="card">
         <div class="card-body col-12">
@@ -255,11 +255,12 @@
                                         </form>
                                         @else
                                         <button class="btn">
-                                            <span class="badge badge-secondary">Belum diisi Karyawan</span>
+                                            <span class="badge badge-secondary">Penilaian Belum </span>
                                         </button>
                                         @endif
                                     </td>
                                 </tr>
+
                                 @endif
                                 @endforeach
                             </tbody>
