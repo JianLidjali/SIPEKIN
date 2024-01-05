@@ -25,26 +25,17 @@ class StoreUserRequest extends FormRequest
             'username' => 'required',
             'email' => 'required|email|unique:users',
             'role' => 'required',
+            'department' => 'required_if:role,HOD|nullable',
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
-
-            'name' => 'required',
-            'staffIdentityCardNo' => 'required|unique:employees,staffIdentityCardNo',
-            'department' => 'required',
-            'position' => 'required',
-            'dateJoined' => 'required|date|',
-            'dateInThePresentPosition' => 'required|date|after_or_equal:dateJoined',
-
 
         ];
     }
     public function messages()
     {
         return [
-            'staffIdentityCardNo.unique' => 'Staff Identity Card No sudah digunakan.',
             'email.unique' => 'Email sudah digunakan.',
             'password_confirmation.same' => 'Konfirmasi password tidak sama.',
-            'dateInThePresentPosition.after_or_equal' => 'Tanggal pada kolom "Date In The Present Position" harus setelah tanggal pada kolom "Date Joined".',
         ];
     }
 }

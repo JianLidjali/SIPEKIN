@@ -23,7 +23,6 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
             'staffIdentityCardNo' => 'required|unique:employees,staffIdentityCardNo',
             'department' => 'required',
             'position' => 'required',
@@ -35,7 +34,6 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'staffIdentityCardNo.unique' => 'Staff Identity Card No sudah digunakan.',
-            'email.unique' => 'Email sudah digunakan.',
             'dateInThePresentPosition.after_or_equal' => 'Tanggal pada kolom "Date In The Present Position" harus setelah tanggal pada kolom "Date Joined".',
         ];
     }

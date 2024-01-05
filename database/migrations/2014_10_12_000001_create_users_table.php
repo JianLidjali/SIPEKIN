@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('role');
+            $table->string('department')->nullable()->default(null);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->uuid('employee_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('employee_id')->references('uuid')->on('employees')->onDelete('set null');
         });
     }
 

@@ -48,15 +48,39 @@
                                     class="mb-md-0 w-100 mb-2 text-start">Role</label></div>
                             <div class="col-12 col-md-9">
                                 <select class="form-control w-100" name="role" id="role" required>
-                                    <option value="Karyawan" {{ old('role')=='Karyawan' ? 'selected' : '' }}>Karyawan</option>
-                                    <option value="HOD" {{ old('role')=='HOD' ? 'selected' : '' }}>Head of Department</option>
-                                    <option value="HRD" {{ old('role')=='HRD' ? 'selected' : '' }}>HRD</option>
-                                    <option value="GM" {{ old('role')=='GM' ? 'selected' : '' }}>General Manager</option>
                                     
+                                    <option value="HOD" {{ old('role')=='HOD' ? 'selected' : '' }}>Head of Department
+                                    </option>
+                                    <option value="HRD" {{ old('role')=='HRD' ? 'selected' : '' }}>HRD</option>
+                                    <option value="GM" {{ old('role')=='GM' ? 'selected' : '' }}>General Manager
+                                    </option>
+
                                 </select>
                                 @error('role')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                            </div>
+                        </div>
+                        <div id="departmentRow" class="row mb-3" hidden>
+                            <div class="col-12 col-md-3"><label for="department" class="mb-md-0 w-100 mb-2 text-start">
+                                    Department</label></div>
+                            <div class="col-12 col-md-9">
+                                <select class="form-control w-100" name="department" id="department">
+                                    <option value="Front office" {{ old('department'=='Front office' ? 'selected' : '' )
+                                        }}>Front office</option>
+                                    <option value="Housekeeping" {{ old('department'=='Housekeeping' ? 'selected' : '' )
+                                        }}>Housekeeping</option>
+                                    <option value="Engineering" {{ old('department'=='Engineering' ? 'selected' : '' )
+                                        }}>Engineering</option>
+                                    <option value="Accounting" {{ old('department'=='Accounting' ? 'selected' : '' ) }}>
+                                        Accounting</option>
+                                    <option value="Sales" {{ old('department'=='Sales' ? 'selected' : '' ) }}>Sales
+                                    </option>
+                                    <option value="FBS" {{ old('department'=='FBS' ? 'selected' : '' ) }}>FBS</option>
+                                    <option value="FBP" {{ old('department'=='FBP' ? 'selected' : '' ) }}>FBP</option>
+                                    <option value="HC & Security" {{ old('department'=='HC & Security' ? 'selected' : ''
+                                        ) }}>HC & Security</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -82,89 +106,7 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <!-- Informasi Karyawan -->
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-3"><label for="name"
-                                    class="mb-md-0 w-100 mb-2 text-start">Nama</label></div>
-                            <div class="col-12 col-md-9">
-                                <input type="text" class="form-control @error('nama') border-danger @enderror" id="name"
-                                    name="name" value="{{ old('name') }}" required>
-                                @error('name')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-3"><label for="staffIdentityCardNo"
-                                    class="mb-md-0 w-100 mb-2 text-start">Staff Identity Card No</label></div>
-                            <div class="col-12 col-md-9">
-                                <input type="text"
-                                    class="form-control @error('staffIdentityCardNo') border-danger @enderror"
-                                    id="staffIdentityCardNo" name="staffIdentityCardNo"
-                                    value="{{ old('staffIdentityCardNo') }}" required>
-                                @error('staffIdentityCardNo')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-3"><label for="department" class="mb-md-0 w-100 mb-2 text-start">
-                                    Department</label></div>
-                            <div class="col-12 col-md-9">
-                                <select class="form-control w-100" name="department" id="department">
-                                    <option value="Front office" {{ old('department'=='Front office' ? 'selected' : '' )
-                                        }}>Front office</option>
-                                    <option value="Housekeeping" {{ old('department'=='Housekeeping' ? 'selected' : '' )
-                                        }}>Housekeeping</option>
-                                    <option value="Engineering" {{ old('department'=='Engineering' ? 'selected' : '' )
-                                        }}>Engineering</option>
-                                    <option value="Accounting" {{ old('department'=='Accounting' ? 'selected' : '' ) }}>
-                                        Accounting</option>
-                                    <option value="Sales" {{ old('department'=='Sales' ? 'selected' : '' ) }}>Sales
-                                    </option>
-                                    <option value="FBS" {{ old('department'=='FBS' ? 'selected' : '' ) }}>FBS</option>
-                                    <option value="FBP" {{ old('department'=='FBP' ? 'selected' : '' ) }}>FBP</option>
-                                    <option value="HC & Security" {{ old('department'=='HC & Security' ? 'selected' : ''
-                                        ) }}>HC & Security</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-3"><label for="position"
-                                    class="mb-md-0 w-100 mb-2 text-start">Posisi</label></div>
-                            <div class="col-12 col-md-9">
-                                <input type="text" class="form-control @error('position') border-danger @enderror"
-                                    id="position" name="position" value="{{ old('position') }}" required>
-                                @error('position')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-3"><label for="dateJoined"
-                                    class="mb-md-0 w-100 mb-2 text-start">Date Joined</label></div>
-                            <div class="col-12 col-md-9">
-                                <input type="date" class="form-control @error('dateJoined') border-danger @enderror"
-                                    id="dateJoined" name="dateJoined" value="{{ old('dateJoined') }}" required>
-                                @error('dateJoined')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-3"><label for="dateInThePresentPosition"
-                                    class="mb-md-0 w-100 mb-2 text-start">Date In The Present Position</label></div>
-                            <div class="col-12 col-md-9">
-                                <input type="date"
-                                    class="form-control @error('dateInThePresentPosition') border-danger @enderror"
-                                    id="dateInThePresentPosition" name="dateInThePresentPosition"
-                                    value="{{ old('dateInThePresentPosition') }}" required>
-                                @error('dateInThePresentPosition')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         <div class="d-flex">
                             <button type="submit" class="btn btn-primary w-100">Submit</button>
                         </div>
@@ -174,5 +116,28 @@
         </div>
     </section>
 </div>
+@push('scripts')
+<!-- Tambahkan sebelum </body> -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ambil elemen input Role dan Department
+        var roleInput = document.getElementById('role');
+        var departmentRow = document.getElementById('departmentRow');
 
+        // Tambahkan event listener untuk perubahan pada input Role
+        roleInput.addEventListener('change', function () {
+            // Cek apakah Role yang dipilih adalah HOD
+            if (roleInput.value === 'HOD') {
+                // Tampilkan input Department
+                departmentRow.removeAttribute('hidden');
+            } else {
+                // Sembunyikan input Department
+                departmentRow.setAttribute('hidden', 'true');
+            }
+        });
+    });
+</script>
+
+
+@endpush
 @endsection
