@@ -84,7 +84,7 @@ class StoreAnnualApprasial extends FormRequest
 
 
             // Validation for Part VI
-            'staff_suggestion' => 'nullable|string',
+            'staff_suggestion' => $this->user()->role == 'Karyawan' ? 'required|string' : 'nullable',
         ];
     }
 }

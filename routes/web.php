@@ -40,7 +40,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/forgot-password', function () {
     return view('pages.auth.forgot-password');
-})->name('password.request');
+})->middleware('guest')->name('password.request');
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -55,11 +55,11 @@ Route::post('/forgot-password', function (Request $request) {
         Log::error('Password reset link not sent. Error: ' . $status);
         return back()->withErrors(['email' => __($status)]);
     }
-})->name('password.email');
+})->middleware('guest')->name('password.email');
 
 Route::get('/reset-password/{token}', function (string $token) {
     return view('pages.auth.reset-password', ['token' => $token]);
-})->name('password.reset');
+})->middleware('guest')->name('password.reset');
 
 
 Route::post('/reset-password', function (Request $request) {
@@ -89,7 +89,7 @@ Route::post('/reset-password', function (Request $request) {
         Log::error('Password reset failed. Error: ' . $status);
         return back()->withErrors(['email' => [__($status)]]);
     }
-})->name('password.update');
+})->middleware('guest')->name('password.update');
 
 
 Route::middleware('web', 'auth')->group(function () {

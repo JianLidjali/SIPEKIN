@@ -26,8 +26,7 @@ class User extends Authenticatable
         'role',
         'email',
         'password',
-        'department',
-        'email_verified_at',
+        'employee_id',
     ];
 
     /**
@@ -49,5 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'employee_id', 'uuid');
+    }
 }

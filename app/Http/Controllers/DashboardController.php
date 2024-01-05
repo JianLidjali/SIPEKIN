@@ -12,24 +12,41 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $userId = Auth::id();
 
-        $appraisal = PerformanceAppraisal::whereIn('status', ['pending', 'Diapprove oleh HRD', 'Diapprove oleh GM'])->get();
-
+        if (Auth::user()->role == 'Karyawan') {
+            $appraisal = PerformanceAppraisal::where('employee_id', $userId)->where('status', 'pending')->get();
+        } else {
+            $appraisal = PerformanceAppraisal::whereIn('status', ['pending', 'Diisi oleh Karyawan', 'Diapprove oleh HOD', 'Diapprove oleh HRD', 'Diapprove oleh GM'])->get();
+        }
         $status = PerformanceAppraisal::where('status', 'pending')->get();
-        $employee = Employee::count();
-
-
+        $employee = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+            ->where('users.role', '=', 'Karyawan')
+            ->get(['employees.*'])->count();
+            
 
         $data2 = PerformanceAppraisal::where('type', 'For Annual')->count();
         $data3 = PerformanceAppraisal::where('type', 'For Probation')->count();
         $data4 = PerformanceAppraisal::where('type', 'For Promotion Recommendation')->count();
 
-        $data = Employee::count();
 
+        $data = Employee::count();
         $department = Employee::distinct('department')->count('department');
         return view('pages.dashboard.index', compact('data', 'department', 'appraisal', 'employee', 'data2', 'data3', 'data4', 'status'));
     }
+    public function approveHod($id)
+    {
 
+        try {
+            $appraisal = PerformanceAppraisal::findOrFail($id);
+            $appraisal->update([
+                'status' => 'Diapprove oleh HOD'
+            ]);
+            return redirect()->back()->with('success', 'Penilaian berhasil diapprove oleh HOD');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
     public function approveHrd($id)
     {
 

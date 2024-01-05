@@ -22,7 +22,6 @@ class StoreRecommendationApraisal extends FormRequest
      */
     public function rules(): array
     {
-        
         return [
             'employee_uuid' => 'required|exists:employees,uuid',
 
@@ -72,7 +71,7 @@ class StoreRecommendationApraisal extends FormRequest
             'strengths' => 'required|string',
             'weakness' => 'required|string',
             'suggestions' => 'required|string',
-            'promotability' => 'nullable|in:promotable_now,promotable_1_2_years,limited_to_current_position',
+            'promotability' => 'required|in:promotable_now,promotable_1_2_years,limited_to_current_position',
             'promotable_now_position' => 'nullable|string|required_if:promotability,promotable_now',
             'promotable_now_successor' => 'nullable|string|required_if:promotability,promotable_now',
             'promotable_1_2_years_position' => 'nullable|string|required_if:promotability,promotable_1_2_years',
@@ -90,7 +89,7 @@ class StoreRecommendationApraisal extends FormRequest
 
 
             // Validation for Part VI
-            'staff_suggestion' => 'nullable|string',
+            'staff_suggestion' => $this->user()->role == 'Karyawan' ? 'required|string' : 'nullable',
         ];
     }
 }

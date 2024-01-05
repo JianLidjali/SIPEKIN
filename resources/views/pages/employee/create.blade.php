@@ -50,6 +50,17 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <div class="col-12 col-md-3"><label for="email"
+                                    class="mb-md-0 w-100 mb-2 text-start">Email</label></div>
+                            <div class="col-12 col-md-9">
+                                <input type="email" class="form-control @error('email') border-danger @enderror"
+                                    id="email" name="email" value="{{ old('email') }}" required>
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-12 col-md-3"><label for="staffIdentityCardNo"
                                     class="mb-md-0 w-100 mb-2 text-start">Staff Identity Card No</label></div>
                             <div class="col-12 col-md-9">
@@ -113,9 +124,9 @@
                                 <input type="date"
                                     class="form-control @error('dateInThePresentPosition') border-danger @enderror"
                                     id="dateInThePresentPosition" name="dateInThePresentPosition"
-                                    value="{{ old('dateInThePresentPosition') }}" required min="{{ old('dateJoined') }}">
+                                    value="{{ old('dateInThePresentPosition') }}" required min="{{ old('dateJoined') }}>
                                 @error('dateInThePresentPosition')
-                                <span class="text-danger">{{ $message }}</span>
+                                <span class=" text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>

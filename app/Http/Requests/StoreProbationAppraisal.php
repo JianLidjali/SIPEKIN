@@ -23,7 +23,7 @@ class StoreProbationAppraisal extends FormRequest
     public function rules(): array
     {
         return [
-
+            
             'employee_uuid' => 'required|exists:employees,uuid',
 
             // Validation for Part II
@@ -72,17 +72,15 @@ class StoreProbationAppraisal extends FormRequest
             'strengths' => 'required|string',
             'weakness' => 'required|string',
             'suggestions' => 'required|string',
-            'promotability' => 'nullable|in:promotable_now,promotable_1_2_years,limited_to_current_position',
+            'promotability' => 'required|in:promotable_now,promotable_1_2_years,limited_to_current_position',
             'promotable_now_position' => 'nullable|string|required_if:promotability,promotable_now',
             'promotable_now_successor' => 'nullable|string|required_if:promotability,promotable_now',
             'promotable_1_2_years_position' => 'nullable|string|required_if:promotability,promotable_1_2_years',
             'promotable_1_2_years_successor' => 'nullable|string|required_if:promotability,promotable_1_2_years',
             'limited_to_current_position' => 'nullable|string|required_if:promotability,limited_to_current_position',
 
-            // Validation for Part VI
-            'staff_suggestion' => 'nullable|string',
             //validation for part VII
-            'confirmed_date' => 'nullable|date',
+            'confirmed_date' => 'required|date',
             'extension_from' => 'nullable|date',
             'extension_reason' => 'nullable|string',
             'termination_date' => 'nullable|date',
@@ -90,6 +88,8 @@ class StoreProbationAppraisal extends FormRequest
 
 
 
+            // Validation for Part VI
+            'staff_suggestion' => $this->user()->role == 'Karyawan' ? 'required|string' : 'nullable',
         ];
     }
 }

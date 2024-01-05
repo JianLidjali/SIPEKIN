@@ -15,7 +15,9 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Employee::orderBy('department')->get();
+        $data = Employee::join('users', 'employees.uuid', '=', 'users.employee_id')
+            ->where('users.role', '=', 'Karyawan')
+            ->get(['employees.*']);
         
         return view('pages.employee.index', compact('data'));
     }
@@ -27,7 +29,14 @@ class EmployeeController extends Controller
     {
         try {
             $employee = Employee::create($request->all());
- 
+            User::create([
+                'username' => $employee->name,
+                'role' => 'Karyawan',
+                'email' => $request->input('email'),
+                'email_verified_at' => now(),
+                'password' => bcrypt('password'),
+                'employee_id' => $employee->uuid,
+            ]);
             return redirect()->route('employee.index')->with('success', 'Data created successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['error' => $th->getMessage()]);

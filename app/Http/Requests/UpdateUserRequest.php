@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         $userId = $this->route('user');
-
+        $employeeId = $userId->employee;
 
         return [
             'username' => 'required',
@@ -36,8 +36,15 @@ class UpdateUserRequest extends FormRequest
             ],
             'role' => 'required',
 
-            'department' => 'required_if:role,HOD|nullable',
-
+            'name' => 'required',
+            'staffIdentityCardNo' => [
+                'required',
+                Rule::unique('employees', 'staffIdentityCardNo')->ignore($employeeId),
+            ],
+            'department' => 'required',
+            'position' => 'required',
+            'dateJoined' => 'required|date',
+            'dateInThePresentPosition' => 'required|date',
         ];
     }
     public function messages()

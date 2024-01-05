@@ -61,7 +61,6 @@
                                 @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-
                             </div>
                         </div>
 
@@ -87,8 +86,6 @@
                                 @error('new_password')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                                <small class="text-muted">Note: Leave it blank if you don't want to change the
-                                    password.</small>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -98,11 +95,6 @@
                                 <input type="password"
                                     class="form-control @error('password_confirmation') border-danger @enderror"
                                     id="password_confirmation" name="password_confirmation">
-                                <div class="float-right">
-                                    <a href="{{ route('password.request') }}" class="text-small">
-                                        Forgot Password?
-                                    </a>
-                                </div>
                                 @error('password_confirmation')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror

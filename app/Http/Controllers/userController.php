@@ -34,20 +34,16 @@ class userController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        try {
-            $user = User::create([
+        $employee = Employee::create($request->only('name', 'staffIdentityCardNo', 'department', 'position', 'dateJoined', 'dateInThePresentPosition'));
+        User::create([
             'username' => $request->input('username'),
             'role' => $request->input('role'),
             'email' => $request->input('email'),
-            'department' => $request->input('department'),
             'email_verified_at' => now(),
-            'password' => bcrypt($request->input('password')),
-            ]);
-            
+            'password' => bcrypt('password'),
+            'employee_id' => $employee->uuid,
+        ]);
         return redirect()->route('user.index')->with('success', 'Data user berhasil ditambahkan.');
-        } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['error' => $th->getMessage()]);
-        }
     }
 
     /**
