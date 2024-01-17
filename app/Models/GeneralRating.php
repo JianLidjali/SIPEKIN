@@ -18,7 +18,8 @@ class GeneralRating extends Model
         'promotable_now_position',
         'promotable_now_successor',
         'promotable_1_2_years_position',
-        'promotable_1_2_years_successor'
+        'promotable_1_2_years_successor',
+        'capability_limited_to_current_position'
     ];
     public function performanceAppraisal()
     {

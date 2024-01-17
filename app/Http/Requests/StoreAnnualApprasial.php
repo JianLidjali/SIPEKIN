@@ -80,6 +80,7 @@ class StoreAnnualApprasial extends FormRequest
             'promotable_1_2_years_position' => 'nullable|string|required_if:promotability,promotable_1_2_years',
             'promotable_1_2_years_successor' => 'nullable|string|required_if:promotability,promotable_1_2_years',
             'limited_to_current_position' => 'nullable|string|required_if:promotability,limited_to_current_position',
+            'capability_limited_to_current_position' => 'nullable|string|required_if:promotability,capability_limited_to_current_position',
 
 
 

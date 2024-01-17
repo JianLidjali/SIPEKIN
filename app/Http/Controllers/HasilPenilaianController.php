@@ -180,10 +180,11 @@ class HasilPenilaianController extends Controller
                 'promotability' => $appraisal->generalRating->promotability == 'promotable_now' ? '✔' : ' ',
                 'promotability2' => $appraisal->generalRating->promotability == 'promotable_1_2_years' ? '✔' : ' ',
                 'promotability3' => $appraisal->generalRating->promotability == 'limited_to_current_position' ? '✔' : ' ',
-                'promotable_now_position' => $appraisal->generalRating->promotable_now_position ?? '',
-                'promotable_now_successor' => $appraisal->generalRating->promotable_now_successors ?? '',
-                'promotable_1_2_years_position' => $appraisal->generalRating->promotable_1_2_years_position ?? '',
-                'promotable_1_2_years_successor' => $appraisal->generalRating->promotable_1_2_years_successors ?? '',
+                'p1' => $appraisal->generalRating->promotable_now_position ?? '',
+                's1' => $appraisal->generalRating->promotable_now_successor ?? '',
+                'p2' => $appraisal->generalRating->promotable_1_2_years_position ?? '',
+                's2' => $appraisal->generalRating->promotable_1_2_years_successors ?? '',
+                'capability' => $appraisal->generalRating->capability_limited_to_current_position ?? '',
 
 
                 'staff_suggestion' => $appraisal->certification->staff_suggestion ?? '',
@@ -206,6 +207,7 @@ class HasilPenilaianController extends Controller
 
 
             ];
+            //dd($appraisal->generalRating);
 
             foreach ($data as $placeholder => $value) {
                 $templateProcessor->setValue($placeholder, $value);

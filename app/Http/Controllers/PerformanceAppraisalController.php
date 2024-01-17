@@ -116,6 +116,7 @@ class PerformanceAppraisalController extends Controller
                 'promotable_now_successor' => $request->promotable_now_successor,
                 'promotable_1_2_years_position' => $request->promotable_1_2_years_position,
                 'promotable_1_2_years_successor' => $request->promotable_1_2_years_successor,
+                'capability_limited_to_current_position' => $request->capability_limited_to_current_position,
             ]);
             $generalRating->save();
             $certification = new Certification([
@@ -161,7 +162,7 @@ class PerformanceAppraisalController extends Controller
     public function storeProbation(StoreProbationAppraisal $request, Employee $employee)
     {
         try {
-            
+
             $performanceAppraisal = new PerformanceAppraisal();
             $performanceAppraisal->employee_id = $employee->id;
             $performanceAppraisal->employee_uuid = $request->employee_uuid;
@@ -226,6 +227,8 @@ class PerformanceAppraisalController extends Controller
                 'promotable_now_successor' => $request->promotable_now_successor,
                 'promotable_1_2_years_position' => $request->promotable_1_2_years_position,
                 'promotable_1_2_years_successor' => $request->promotable_1_2_years_successor,
+                'capability_limited_to_current_position' => $request->capability_limited_to_current_position,
+
             ]);
             $generalRating->save();
 
@@ -245,7 +248,7 @@ class PerformanceAppraisalController extends Controller
                 'termination_reason' => $request->termination_reason,
             ]);
             $probation->save();
-            
+
             return redirect()->route('performance-appraisal.masaPercobaan')->with('success', 'Data created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -269,18 +272,18 @@ class PerformanceAppraisalController extends Controller
     public function rekomendasi()
     {
         $data = Employee::orderBy('department')->get();
-        
+
         return view('pages.performance appraisal.recomendation.index', compact('data'));
     }
     public function formRecommendation(Employee $employee)
     {
-        
+
         return view('pages.Performance Appraisal.recomendation.hod.index', compact('employee'));
     }
     public function storeRecommendation(Request $request, Employee $employee)
     {
         try {
-            
+
             $performanceAppraisal = new PerformanceAppraisal();
             $performanceAppraisal->employee_id = $employee->id;
             $performanceAppraisal->employee_uuid = $request->employee_uuid;
@@ -345,6 +348,7 @@ class PerformanceAppraisalController extends Controller
                 'promotable_now_successor' => $request->promotable_now_successor,
                 'promotable_1_2_years_position' => $request->promotable_1_2_years_position,
                 'promotable_1_2_years_successor' => $request->promotable_1_2_years_successor,
+                'capability_limited_to_current_position' => $request->capability_limited_to_current_position,
             ]);
             $generalRating->save();
             $certification = new Certification([

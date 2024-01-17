@@ -103,14 +103,13 @@
                 <input type="text" class="form-control" id="promotable_1_2_years_successor"
                     name="promotable_1_2_years_successor">
             </div>
-
-            
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="promotability" id="limited_to_current_position"
                     value="limited_to_current_position" >
                 <label class="form-check-label mb-2" for="limited_to_current_position">Capability limited to
                     Current
                     Position</label>
+                <input type="text" class="form-control" id="capability_limited_to_current_position" name="capability_limited_to_current_position">
             </div>
         </div>
 

@@ -79,6 +79,7 @@ return new class extends Migration
             $table->text('promotable_now_successor')->nullable();
             $table->text('promotable_1_2_years_position')->nullable();
             $table->text('promotable_1_2_years_successor')->nullable();
+            $table->text('capability_limited_to_current_position')->nullable();
             $table->timestamps();
         });
         Schema::create('Certifications', function (Blueprint $table) {

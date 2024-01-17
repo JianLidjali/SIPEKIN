@@ -49,9 +49,9 @@
                             <div class="col-12 col-md-9">
                                 <select class="form-control w-100" name="role" id="role" required>
                                     
+                                    <option value="HRD" {{ old('role')=='HRD' ? 'selected' : '' }}>HRD</option>
                                     <option value="HOD" {{ old('role')=='HOD' ? 'selected' : '' }}>Head of Department
                                     </option>
-                                    <option value="HRD" {{ old('role')=='HRD' ? 'selected' : '' }}>HRD</option>
                                     <option value="GM" {{ old('role')=='GM' ? 'selected' : '' }}>General Manager
                                     </option>
 
