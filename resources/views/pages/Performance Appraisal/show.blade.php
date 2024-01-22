@@ -72,7 +72,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="card col-12 mt-3">
             <div class="card-header">
                 <h4>Part II - Performance / Hasil Kerja</h4>
@@ -140,7 +139,6 @@
                 </table>
             </div>
         </div>
-
         <div class="card col-12 mt-3">
             <div class="card-header">
                 <h4>Part III – Attitude Towards Work / Sikap terhadap pekerjaan</h4>
