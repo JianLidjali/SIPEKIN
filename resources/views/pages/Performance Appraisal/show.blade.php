@@ -73,73 +73,73 @@
             </div>
         </div>
         
-<div class="card col-12 mt-3">
-    <div class="card-header">
-        <h4>Part II - Performance / Hasil Kerja</h4>
-    </div>
-    <div class="card-body table-responsive">
-        <table class="table" id="part_ii_table">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Keterangan Terperinci</th>
-                    <th>9</th>
-                    <th>8</th>
-                    <th>7</th>
-                    <th>6</th>
-                    <th>5</th>
-                    <th>Remarks/Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                $categories = [
-                'Job Knowledge',
-                'Quality of Work',
-                'Quantity of Work',
-                'Stability',
-                'Communication',
-                'Diplomacy',
-                'Judgement',
-                'Salesmanship',
-                'Customer Relations',
-                'Supervisory Skills',
-                ];
-                @endphp
-                @foreach ($categories as $index => $category)
-                @php
-                        $categoryKey = strtolower(str_replace(' ', '_', $category));
-                        $performanceValue = $performance ? $performance->$categoryKey : null;
-                        $remarksName = $categoryKey . '_remarks';
-                        $remarksValue = $performance ? $performance->$remarksName : '';
-                        $readOnly = Auth::user()->role == 'Karyawan' ? 'readonly' : '';
+        <div class="card col-12 mt-3">
+            <div class="card-header">
+                <h4>Part II - Performance / Hasil Kerja</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table" id="part_ii_table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Keterangan Terperinci</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>Remarks/Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                        $categories = [
+                        'Job Knowledge',
+                        'Quality of Work',
+                        'Quantity of Work',
+                        'Stability',
+                        'Communication',
+                        'Diplomacy',
+                        'Judgement',
+                        'Salesmanship',
+                        'Customer Relations',
+                        'Supervisory Skills',
+                        ];
                         @endphp
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $category }}</td>
-                    <td><input type="radio" name="{{ $categoryKey }}" value="9" {{ $performanceValue==9 ? 'checked'
-                                    : '' }} required {{ $readOnly }}></td>
-                    <td><input type="radio" name="{{ $categoryKey }}" value="8" {{ $performanceValue==8 ? 'checked'
-                                    : '' }} required {{ $readOnly }}></td>
-                    <td><input type="radio" name="{{ $categoryKey }}" value="7" {{ $performanceValue==7 ? 'checked'
-                                    : '' }} required {{ $readOnly }}></td>
-                    <td><input type="radio" name="{{ $categoryKey }}" value="6" {{ $performanceValue==6 ? 'checked'
-                                    : '' }} required {{ $readOnly }}></td>
-                    <td><input type="radio" name="{{ $categoryKey }}" value="5" {{ $performanceValue==5 ? 'checked'
-                                    : '' }} required {{ $readOnly }}></td>
-                    <td><input type="text" class="form-control" value="{{$remarksValue}}"
-                            name="{{ $remarksName }}"></td>
-                </tr>
-                @endforeach
-                <tr>
-                    <td colspan="1" class="text-right"><strong>Total :</strong></td>
-                    <td colspan="10"><input type="text" class="form-control" id="part_ii_total" name="part_ii_total"
-                            readonly></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        @foreach ($categories as $index => $category)
+                        @php
+                                $categoryKey = strtolower(str_replace(' ', '_', $category));
+                                $performanceValue = $performance ? $performance->$categoryKey : null;
+                                $remarksName = $categoryKey . '_remarks';
+                                $remarksValue = $performance ? $performance->$remarksName : '';
+                                $readOnly = Auth::user()->role == 'Karyawan' ? 'readonly' : '';
+                                @endphp
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $category }}</td>
+                            <td><input type="radio" name="{{ $categoryKey }}" value="9" {{ $performanceValue==9 ? 'checked'
+                                            : '' }} required {{ $readOnly }}></td>
+                            <td><input type="radio" name="{{ $categoryKey }}" value="8" {{ $performanceValue==8 ? 'checked'
+                                            : '' }} required {{ $readOnly }}></td>
+                            <td><input type="radio" name="{{ $categoryKey }}" value="7" {{ $performanceValue==7 ? 'checked'
+                                            : '' }} required {{ $readOnly }}></td>
+                            <td><input type="radio" name="{{ $categoryKey }}" value="6" {{ $performanceValue==6 ? 'checked'
+                                            : '' }} required {{ $readOnly }}></td>
+                            <td><input type="radio" name="{{ $categoryKey }}" value="5" {{ $performanceValue==5 ? 'checked'
+                                            : '' }} required {{ $readOnly }}></td>
+                            <td><input type="text" class="form-control" value="{{$remarksValue}}"
+                                    name="{{ $remarksName }}"></td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="1" class="text-right"><strong>Total :</strong></td>
+                            <td colspan="10"><input type="text" class="form-control" id="part_ii_total" name="part_ii_total"
+                                    readonly></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="card col-12 mt-3">
             <div class="card-header">
